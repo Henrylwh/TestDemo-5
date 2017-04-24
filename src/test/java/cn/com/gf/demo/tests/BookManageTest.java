@@ -10,6 +10,7 @@ import cn.com.gf.demo.pages.Homepage;
 import org.testng.annotations.Test;
 import cn.com.gf.demo.base.utils.Logger;
 import cn.com.gf.demo.base.utils.Util;
+import org.testng.annotations.AfterMethod;
 
 /**
  * Created by Administrator on 2017/4/22.
@@ -32,11 +33,11 @@ public class BookManageTest {
         homepageFlow.clickTree();
         Thread.sleep(2000);
     }
-//    @AfterMethod(alwaysRun = true)
-//    public void closeDriver(){
-//        driver.close();
-//        driver.quit();
-//    }
+    @AfterMethod(alwaysRun = true)
+    public void closeDriver(){
+        driver.close();
+        driver.quit();
+    }
 
 
     @Test(groups = {"SMOKE", "REGRESSION"}, description = "Create new book successfully", enabled = true)
