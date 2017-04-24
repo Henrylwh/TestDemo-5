@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Smoke" parallel="tests" thread-count="8">
+	<groups>
+			<run>
+				<include name="SMOKE" />
+			</run>
+	</groups>
+	<test name="test_TC201">
+		<classes>
+			<class name="cn.com.gf.demo.tests.BookManageTest" />
+		</classes>
+	</test>
+	<listeners>
+	</listeners>
+</suite>
