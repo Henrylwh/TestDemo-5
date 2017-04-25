@@ -1,0 +1,356 @@
+{
+	"variables": [],
+	"info": {
+		"name": "TestDemo",
+		"_postman_id": "5eef92da-1d97-739c-4450-a63cbb3292bc",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AddBook_IdExists",
+			"description": "Add book firstly, and then add book with same Id",
+			"item": [
+				{
+					"name": "addBook_Add fisrt book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"First Book Added successful\"] = responseBody.has(\"true\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/test/book/addBook",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "bookValues={id: \"{{BookId}}\", name: \"Jenkins权威指南+{{BookId}}\", author: \"John Ferguson Smart+{{BookId}}\", year: \"{{Year}}\", digest: \"Book digest+{{BookId}}\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "addBook_Id already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Create same book  failed\"] = responseBody.has(\"false\");",
+									"tests[\"Message valification\"] = responseBody.has(\"该id已存在\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/test/book/addBook",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "bookValues={id: \"{{BookId}}\", name: \"Jenkins权威指南+{{BookId}}\", author: \"John Ferguson Smart+{{BookId}}\", year: \"{{Year}}\", digest: \"Book digest+{{BookId}}\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBook_Clean Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Book removed successful\"] = responseBody.has(\"true\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/test/book/deleteBook",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "idString={id: \"{{BookId}}\"}"
+						},
+						"description": "This request is to clean the added data for continuous running"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DeleteBook_IdNotExist",
+			"description": "",
+			"item": [
+				{
+					"name": "deleteBook_IdNotExist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Delete failed\"] = responseBody.has(\"false\");",
+									"tests[\"Id not exist message\"] = responseBody.has(\"该id不存在\");"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setGlobalVariable(\"Id\", \"{{$timestamp}}\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/test/book/deleteBook",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "idString={id: \"{{Id}}\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PositiveTestCase",
+			"description": "",
+			"item": [
+				{
+					"name": "addBook",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Book Added successful\"] = responseBody.has(\"true\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/test/book/addBook",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "bookValues={id: \"{{BookId}}\", name: \"Jenkins权威指南+{{BookId}}\", author: \"John Ferguson Smart+{{BookId}}\", year: \"{{Year}}\", digest: \"Book digest+{{BookId}}\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "getBookList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"",
+									"var responseJSON;",
+									"",
+									"try { ",
+									"    responseJSON = JSON.parse(responseBody); ",
+									"    tests['response is valid JSON'] = true;",
+									"}",
+									"catch (e) { ",
+									"    responseJSON = {}; ",
+									"    tests['response is valid JSON'] = false;",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/test/book/getBookList",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "updateBook",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Book updated successfully\"] = responseBody.has(\"更新成功\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/test/book/updateBook",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "bookValues={id: \"{{BookId}}\", name: \"Jenkins权威指南\", author: \"John Ferguson Smart\", year: \"2016\", digest: \"John Ferguson Smart，Wakaleo Consulting的主管。\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "deleteBook",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Book deleted successful\"] = responseBody.has(\"true\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/test/book/deleteBook",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "idString={id: \"{{BookId}}\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UpdateBook_IdNotExist",
+			"description": "",
+			"item": [
+				{
+					"name": "updateBook _IdNotExist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Id not exist message\"] = responseBody.has(\"该id不存在\");",
+									"tests[\"Update failed\"] = responseBody.has(\"false\");"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setGlobalVariable(\"Id\", \"{{$timestamp}}\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/test/book/updateBook",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "bookValues={id: \"{{Id}}\", name: \"Jenkins权威指南\", author: \"John Ferguson Smart\", year: \"2016\", digest: \"John Ferguson Smart，Wakaleo Consulting的主管。\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
