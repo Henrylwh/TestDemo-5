@@ -12,4 +12,7 @@
 			<class name="cn.com.gf.demo.tests.BookManageTest" />
 		</classes>
 	</test>
+	<listeners>
+		<listener class-name="cn.com.gf.demo.base.listener.TestCaseListener"></listener>
+	</listeners>
 </suite>

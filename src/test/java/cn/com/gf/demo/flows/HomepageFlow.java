@@ -17,7 +17,7 @@ public class HomepageFlow {
     }
     public void clickTree() {
         factory.tree.click();
-        logger.info("Click book management");
+        logger.info("Click book management button");
     }
 
 }

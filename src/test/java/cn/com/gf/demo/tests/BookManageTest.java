@@ -33,24 +33,26 @@ public class BookManageTest {
         homepageFlow.clickTree();
         Thread.sleep(2000);
     }
+
     @AfterMethod(alwaysRun = true)
-    public void closeDriver(){
+    public void closeDriver() {
         driver.close();
         driver.quit();
     }
 
 
-    @Test(groups = {"SMOKE", "REGRESSION"}, description = "Create new book successfully", enabled = true)
+    @Test(groups = {"SMOKE", "REGRESSION"}, description = "Add new book", enabled = true)
     public void createBookTest() {
         Util util = new Util();
         int beforeRowSize;
         int afterRowSize;
         String randomNo = String.valueOf(util.randomNo());
         String randomYear = String.valueOf(util.randomYear());
-        logger.info("Create book test start");
+        logger.info("Add book test started");
         BookListFlow bookListFlow = new BookListFlow(driver);
         CreateUpdateBookFlow createUpdateBookFlow = new CreateUpdateBookFlow(driver);
         beforeRowSize = bookListFlow.rowSize();
+        logger.info("The total book number before add is " + beforeRowSize);
         bookListFlow.clickCreate();
         createUpdateBookFlow.inputBookId(randomNo);
         createUpdateBookFlow.inputBookName("BookName" + randomNo);
@@ -61,11 +63,13 @@ public class BookManageTest {
         Assert.assertEquals(createUpdateBookFlow.getPopUpMsg(), "添加书籍成功");
         createUpdateBookFlow.clickBtnOk();
         afterRowSize = bookListFlow.rowSize();
+        logger.info("The total book number after add is " + afterRowSize);
         Assert.assertEquals(afterRowSize, beforeRowSize + 1);
         Assert.assertTrue(bookListFlow.listContains("BookDigest" + randomNo));
+        logger.info("Add book test finished");
     }
 
-    @Test(groups = {"REGRESSION"}, description = "Click reset button of create book window", enabled = true)
+    @Test(groups = {"REGRESSION"}, description = "Test reset button of add book window", enabled = true)
     public void createBookResetTest() {
         Util util = new Util();
         String randomNo = String.valueOf(util.randomNo());
@@ -81,13 +85,14 @@ public class BookManageTest {
         createUpdateBookFlow.inputBookDigest("BookDigest" + randomNo);
         createUpdateBookFlow.clickBtnReset();
         Assert.assertEquals(createUpdateBookFlow.getBookNoValue(), "");
+        logger.info("Reset button test finishd");
     }
 
-    @Test(groups = {"REGRESSION"}, description = "Click duplicate book", enabled = true)
+    @Test(groups = {"REGRESSION"}, description = "Add duplicate book", enabled = true)
     public void createDuplicateTest() {
         String bookId;
         Util util = new Util();
-        logger.info("Create duplicate book test start");
+        logger.info("Add duplicate book test start");
         BookListFlow bookListFlow = new BookListFlow(driver);
         CreateUpdateBookFlow createUpdateBookFlow = new CreateUpdateBookFlow(driver);
 
@@ -104,6 +109,7 @@ public class BookManageTest {
         createUpdateBookFlow.inputBookDigest("BookDigest" + randomNo);
         createUpdateBookFlow.clickBtnSubmit();
         Assert.assertEquals(createUpdateBookFlow.getPopUpMsg(), "errorNo:1,errorInfo:该id已存在。");
+        logger.info("Add duplicate book test finish");
     }
 
     @Test(groups = {"SMOKE", "REGRESSION"}, description = "Update book", enabled = true)
@@ -133,10 +139,12 @@ public class BookManageTest {
         afterRowSize = bookListFlow.rowSize();
         Assert.assertEquals(afterRowSize, beforeRowSize);
         Assert.assertTrue(bookListFlow.listContains("BookDigest" + randomNo));
+        logger.info("Update book test finished");
     }
 
     @Test(groups = {"REGRESSION"}, description = "Update book when the id is not exist", enabled = true)
     public void UpdateIdNotExistTest() {
+
         Util util = new Util();
         String randomNo = String.valueOf(util.randomNo());
         String randomYear = String.valueOf(util.randomYear());
@@ -155,6 +163,7 @@ public class BookManageTest {
         createUpdateBookFlow.inputBookDigest("BookDigest" + randomNo);
         createUpdateBookFlow.clickBtnSubmit();
         Assert.assertEquals(createUpdateBookFlow.getPopUpMsg(), "errorNo:1,errorInfo:该id不存在。");
+        logger.info("Update book test finished");
     }
 
     @Test(groups = {"SMOKE", "REGRESSION"}, description = "Update book", enabled = true)
@@ -172,6 +181,7 @@ public class BookManageTest {
         logger.info("Book to be deleted is created successfully");
         bookListFlow.selectBook(bookId);
         beforeRowSize = bookListFlow.rowSize();
+        logger.info("The total book number before delete is " + beforeRowSize);
 
         bookListFlow.clickDelete();
         Assert.assertEquals(deleteBookFlow.getPopUpMsg(), "请谨慎操作，你真的要删除吗？");
@@ -179,8 +189,38 @@ public class BookManageTest {
         Assert.assertEquals(deleteBookFlow.getPopUpMsg(), "删除书籍成功！");
         deleteBookFlow.clickOKBtn();
         afterRowSize = bookListFlow.rowSize();
+        logger.info("The total book number after delete is " + afterRowSize);
         Assert.assertEquals(afterRowSize, beforeRowSize - 1);
         Assert.assertFalse(bookListFlow.listContains(bookId));
+        logger.info("Delete book test finished");
     }
+
+    @Test(groups = {"SMOKE", "REGRESSION"}, description = "Update book", enabled = true)
+    public void CancelDeleteTest() {
+        int beforeRowSize;
+        int afterRowSize;
+        String bookId;
+        Util util = new Util();
+        logger.info("Cancel delete book test start");
+        BookListFlow bookListFlow = new BookListFlow(driver);
+        CreateUpdateBookFlow createUpdateBookFlow = new CreateUpdateBookFlow(driver);
+        DeleteBookFlow deleteBookFlow = new DeleteBookFlow(driver);
+
+        bookId = createUpdateBookFlow.createBook();
+        logger.info("Book to be deleted is created successfully");
+        bookListFlow.selectBook(bookId);
+        beforeRowSize = bookListFlow.rowSize();
+        logger.info("The total book number before delete is " + beforeRowSize);
+
+        bookListFlow.clickDelete();
+        Assert.assertEquals(deleteBookFlow.getPopUpMsg(), "请谨慎操作，你真的要删除吗？");
+        deleteBookFlow.clickNoBtn();
+        afterRowSize = bookListFlow.rowSize();
+        logger.info("The total book number after cancel delete is " + afterRowSize);
+        Assert.assertEquals(afterRowSize, beforeRowSize);
+        Assert.assertTrue(bookListFlow.listContains(bookId));
+        logger.info("Cancel delete book test finished");
+    }
+
 
 }

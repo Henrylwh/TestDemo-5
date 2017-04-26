@@ -17,15 +17,20 @@ public class DeleteBookFlow {
         factory = PageFactory.initElements(driver, DeleteBookPage.class);
     }
     public String getPopUpMsg(){
-        return factory.confirmMessage.getText();
+        String msg=factory.confirmMessage.getText();
+        logger.info("The confirm message text is "+msg);
+        return msg;
     }
     public void clickOKBtn(){
         factory.btnOK.click();
+        logger.info("Click OK button");
     }
     public void clickYesBtn(){
         factory.btnYes.click();
+        logger.info("Click Yes button");
     }
     public void clickNoBtn(){
         factory.btnNo.click();
+        logger.info("Click No button");
     }
 }

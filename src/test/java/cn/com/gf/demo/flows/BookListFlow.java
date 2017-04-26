@@ -24,12 +24,15 @@ public class BookListFlow {
     }
     public void clickCreate(){
         factory.btnCreate.click();
+        logger.info("Click create add book button");
     }
     public void clickUpdate(){
         factory.btnUpdate.click();
+        logger.info("Click update book button");
     }
     public void clickDelete(){
         factory.btnDelete.click();
+        logger.info("Click delete book button");
     }
     public void clickRefresh(){
         factory.btnRefresh.click();

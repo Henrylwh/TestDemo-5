@@ -25,11 +25,13 @@ public class CreateUpdateBookFlow {
         factory.bookId.click();
         factory.bookId.clear();
         factory.bookId.sendKeys(bookNo);
+        logger.info("Input book id");
     }
     public void inputBookName(String bookTitle){
         factory.bookName.click();
         factory.bookName.clear();
         factory.bookName.sendKeys(bookTitle);
+        logger.info("Input book title");
     }
     public void inputBookYear(String bookYear){
         factory.bookYear.click();
@@ -40,24 +42,31 @@ public class CreateUpdateBookFlow {
         factory.bookAuthor.click();
         factory.bookAuthor.clear();
         factory.bookAuthor.sendKeys(bookAuthor);
+        logger.info("Input book author");
     }
     public void inputBookDigest(String bookSummary){
         factory.bookDigest.click();
         factory.bookDigest.clear();
         factory.bookDigest.sendKeys(bookSummary);
+        logger.info("Input book digest");
     }
     public void clickBtnSubmit(){
         Actions action = new Actions(driver);
         action.moveToElement(factory.btnSubmit).click().perform();
+        logger.info("Click submit button");
     }
     public void clickBtnReset(){
         factory.btnReset.click();
+        logger.info("Click reset button");
     }
     public String getPopUpMsg(){
-        return factory.popUpMsg.getText();
+        String msg=factory.popUpMsg.getText();
+        logger.info("The pop message is "+msg);
+        return msg;
     }
     public void clickBtnOk(){
         factory.btnOK.click();
+        logger.info("Click OK button");
     }
 
     public String getBookNoValue(){
