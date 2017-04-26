@@ -1,7 +1,7 @@
 package cn.com.gf.demo.flows;
 
 import cn.com.gf.demo.pages.DeleteBookPage;
-import org.apache.log4j.Logger;
+import cn.com.gf.demo.base.utils.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 

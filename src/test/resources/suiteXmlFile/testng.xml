@@ -5,7 +5,7 @@
 				<include name="REGRESSION" />
 			</run>
 	</groups>
-	<test name="BookManageTest">
+	<test name="BookManageTest" preserve-order="true">
 		<parameter name="browserType" value="chrome" />
 		<parameter name="url" value="http://127.0.0.1:8080/" />
 		<classes>

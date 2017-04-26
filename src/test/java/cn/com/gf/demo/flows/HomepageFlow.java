@@ -6,7 +6,7 @@ package cn.com.gf.demo.flows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import cn.com.gf.demo.pages.Homepage;
-import org.apache.log4j.Logger;
+import cn.com.gf.demo.base.utils.Logger;
 public class HomepageFlow {
     private static final Logger logger = Logger.getLogger(HomepageFlow.class);
     private WebDriver driver = null;

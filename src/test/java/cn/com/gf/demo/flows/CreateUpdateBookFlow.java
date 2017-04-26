@@ -8,7 +8,7 @@ import cn.com.gf.demo.pages.CreateUpdateBookPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
-import org.apache.log4j.Logger;
+import cn.com.gf.demo.base.utils.Logger;
 
 public class CreateUpdateBookFlow {
     private static final Logger logger = Logger.getLogger(BookListFlow.class);
